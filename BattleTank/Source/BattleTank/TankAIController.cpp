@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "TankAIController.h"
 #include "Tank.h"
 #include "Engine/World.h"
@@ -14,22 +13,32 @@ void ATankAIController::BeginPlay()
 	ATank* ControlledTank = GetControlledTank();
 	if (ControlledTank)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AI Controller possessing %s"), *ControlledTank->GetName());
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: AI Controller possessing %s"), Time, *ControlledTank->GetName());
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("AI Controller is not possessing a tank"));
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Error, TEXT("%f: AI Controller is not possessing a tank"), Time);
 	}
 	
 	if (GetPlayerTank() != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Tank Target Acquired. Kill the motherfucker. His ID is %s"), *GetPlayerTank()->GetName());
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: Player Tank Target Acquired. Kill the motherfucker. His ID is %s"), Time, *GetPlayerTank()->GetName());
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("AI Controller cannot find player tank"));
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Error, TEXT("%f: AI Controller cannot find player tank"), Time);
 	}
 
+}
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	ATank* TargetTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	GetControlledTank()->AimAt(TargetTank->GetActorLocation());
 }
 
 ATank* ATankAIController::GetControlledTank() const

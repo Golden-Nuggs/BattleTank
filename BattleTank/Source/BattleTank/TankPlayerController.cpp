@@ -13,11 +13,13 @@ void ATankPlayerController::BeginPlay()
 	ATank* ControlledTank = GetControlledTank();
 	if (ControlledTank)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Controller possessing %s"), *ControlledTank->GetName());
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: Player Controller possessing %s"), Time, *ControlledTank->GetName());
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Player Controller not possessing a tank"));
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Error, TEXT("%f: Player Controller not possessing a tank"), Time);
 	}
 }
 
@@ -42,11 +44,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(Hit, HitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on actor: %s"), *HitLocation.ToString(), *Hit.GetActor()->GetName());
+		GetControlledTank()->AimAt(HitLocation);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Nothing hit!"));
+		float Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: Sight Ray Hits Nothing!"), Time);
 	}
 
 
