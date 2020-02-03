@@ -22,7 +22,7 @@ public:
 
 private:
 
-	class ATank* GetControlledTank() const;
-	class ATank* GetPlayerTank() const;
+	class ATank* ControlledTank;
+	class ATank* PlayerTank;
 
 };

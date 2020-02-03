@@ -18,16 +18,16 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnywhere)
-	float CrossHairAnchorX = 0.5f;
+	float CrossHairAnchorX = 0.5f; 
 	UPROPERTY(EditAnywhere)
 	float CrossHairAnchorY = 0.33333f;
 
 private:
 	class ATank* GetControlledTank() const;
 	void AimTowardsCrosshair();
-	bool GetSightRayHitLocation(FHitResult& OutHit, FVector& OutHitLocation) const;
+	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 	bool GetLookDirection(FVector& CameraWorldPosition, FVector& WorldDirection) const;
-	bool GetHitInfo(FHitResult& OutHit, FVector& OutHitLocation, FVector CameraWorldPosition, FVector WorldDirection) const;
+	bool GetHitInfo(FVector& OutHitLocation, FVector CameraWorldPosition, FVector WorldDirection) const;
 
 
 };

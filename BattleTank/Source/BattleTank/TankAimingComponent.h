@@ -21,7 +21,6 @@ private:
 	class UTankTurret* Turret = nullptr;
 
 	void RotateBarrelTowardsTarget(FVector TargetDirection);
-	void RotateTurretTowardsTarget(FVector TargetDirection);
 public:
 	void SetBarrelReference(class UTankBarrel* BarrelToSet);
 	void SetTurretReference(class UTankTurret* TurretToSet);

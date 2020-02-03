@@ -16,6 +16,6 @@ public:
 	
 private:
 
-	UPROPERTY(EditAnywhere)
-	float RotationSpeed = 5.f;
+	UPROPERTY(EditDefaultsOnly)
+	float RotationSpeed = 25.f;
 };

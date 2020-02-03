@@ -10,52 +10,16 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ATank* ControlledTank = GetControlledTank();
-	if (ControlledTank)
-	{
-		float Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: AI Controller possessing %s"), Time, *ControlledTank->GetName());
-	}
-	else
-	{
-		float Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Error, TEXT("%f: AI Controller is not possessing a tank"), Time);
-	}
-	
-	if (GetPlayerTank() != nullptr)
-	{
-		float Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: Player Tank Target Acquired. Kill the motherfucker. His ID is %s"), Time, *GetPlayerTank()->GetName());
-	}
-	else
-	{
-		float Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Error, TEXT("%f: AI Controller cannot find player tank"), Time);
-	}
+	ControlledTank = Cast<ATank>(GetPawn());
+	if (!ControlledTank) { UE_LOG(LogTemp, Error, TEXT("ControlledTank is null on AI Controller")); return; }
+	PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	if (!PlayerTank) { UE_LOG(LogTemp, Error, TEXT("PlayerTank is null on AI Controller")); return; }
 
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
-	ATank* TargetTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	GetControlledTank()->AimAt(TargetTank->GetActorLocation());
-}
+	ControlledTank->AimAt(PlayerTank->GetActorLocation()); // TODO Seems the AI aim is not working
 
-ATank* ATankAIController::GetControlledTank() const
-{
-
-
-	return Cast<ATank>(GetPawn());
-
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	APawn* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	if (PlayerTank)
-	{
-		return Cast<ATank>(PlayerTank);
-	}
-	
-	return nullptr;
+	ControlledTank->FireCannons();
 }

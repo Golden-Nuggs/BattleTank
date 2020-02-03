@@ -40,22 +40,21 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!GetControlledTank()) { return; }
 
 	FVector HitLocation;
-	FHitResult Hit;
 
-	if (GetSightRayHitLocation(Hit, HitLocation))
+	if (GetSightRayHitLocation(HitLocation))
 	{
 		GetControlledTank()->AimAt(HitLocation);
 	}
 	else
 	{
 		float Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: Sight Ray Hits Nothing!"), Time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f: Sight Ray Hits Nothing!"), Time);
 	}
 
 
 }
 
-bool ATankPlayerController::GetSightRayHitLocation(FHitResult& OutHit, FVector& OutHitLocation) const
+bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
 {
 	FVector CameraWorldPosition;
 	FVector WorldDirection;
@@ -63,7 +62,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FHitResult& OutHit, FVector& 
 
 	GetLookDirection(CameraWorldPosition, WorldDirection);
 
-	if (GetHitInfo(OutHit, OutHitLocation, CameraWorldPosition, WorldDirection))
+	if (GetHitInfo(OutHitLocation, CameraWorldPosition, WorldDirection))
 	{
 		return true;
 	}
@@ -90,14 +89,13 @@ bool ATankPlayerController::GetLookDirection(FVector& OutCameraWorldPosition, FV
 }
 
 // Line trace along look direction to find location of any hit (visibility channel)
-bool ATankPlayerController::GetHitInfo(FHitResult& OutHit, FVector& OutHitLocation, FVector CameraWorldPosition, FVector WorldDirection) const
+bool ATankPlayerController::GetHitInfo(FVector& OutHitLocation, FVector CameraWorldPosition, FVector WorldDirection) const
 {
 	FHitResult Hit;
 	float MaxLengthTrace = 99999.9f;
 	FVector LineTraceEnd = CameraWorldPosition + (WorldDirection * MaxLengthTrace);
 	if (GetWorld()->LineTraceSingleByChannel(Hit, CameraWorldPosition, LineTraceEnd, ECollisionChannel::ECC_Visibility))
 	{
-		OutHit = Hit;
 		OutHitLocation = Hit.Location;
 		return true;
 		

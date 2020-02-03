@@ -35,8 +35,22 @@ public:
 
 	void AimAt(FVector HitLocation);
 
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void FireCannons();
+
 private:
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 100000.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	TSubclassOf<class AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadDelay = 3.f;
+
+	float ReloadTimer = 99999.9f;
+
+	UTankBarrel* Barrel = nullptr;
+
+	
 };

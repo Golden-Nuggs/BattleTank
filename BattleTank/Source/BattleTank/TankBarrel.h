@@ -15,14 +15,13 @@ public:
 	void Elevate(float MoveSpeed);
 
 private:
+	UPROPERTY(EditDefaultsOnly)
+	float ElevationSpeed = 10.f;
 
-	UPROPERTY(EditAnywhere)
-	float ElevationSpeed = 5;
-
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float MinElevation = 0;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float MaxElevation = 40;
 
 };
